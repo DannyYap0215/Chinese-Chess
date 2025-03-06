@@ -19,16 +19,23 @@ title_image = pyg.image.load(title_path)
 # Get board dimensions
 BOARD_WIDTH, BOARD_HEIGHT = board_image.get_width(), board_image.get_height()
 
-# Resize title if needed
-title_width = 300
-title_height = 120
-title_image = pyg.transform.scale(title_image, (title_width, title_height))
-
 # Set screen size (extra space on top for the title)
 PADDING_TOP = 150  # Space for title
 WIDTH, HEIGHT = BOARD_WIDTH, BOARD_HEIGHT + PADDING_TOP
 screen = pyg.display.set_mode((WIDTH, HEIGHT))
 pyg.display.set_caption("Chinese Chess (Xiangqi)")
+
+# Resize title if needed
+title_width = 300
+title_height = 120
+title_image = pyg.transform.scale(title_image, (title_width, title_height))
+
+# Load title background image
+title_bg_path = "images/titleBG.png"  # Make sure the image is saved in the 'images' folder
+title_bg = pyg.image.load(title_bg_path)
+
+# Resize the title background to match the title area
+title_bg = pyg.transform.scale(title_bg, (WIDTH, PADDING_TOP))
 
 # Timer settings
 font = pyg.font.Font(None, 80)
@@ -79,7 +86,16 @@ def draw_pieces(surface):
 class Game:
     """Handles the game state."""
     def draw(self, surface):
-        surface.fill((255, 255, 255))  # White background
+        surface.fill((50, 21, 21))  # White background
+         # Draw title background (before placing the title text)
+        surface.blit(title_bg, (0, 0))  
+        
+        # Draw title text over the background
+        surface.blit(title_image, ((WIDTH - title_width) // 2, 10))  
+
+        # Draw board
+        surface.blit(board_image, (0, PADDING_TOP))
+        
         surface.blit(title_image, ((WIDTH - title_width) // 2, 10))  # Title centered above board
         surface.blit(board_image, (0, PADDING_TOP))  # Board below title
         
