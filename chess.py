@@ -40,37 +40,41 @@ CELL_SIZE = BOARD_WIDTH // COLS
 PIECE_RADIUS = 38  # Piece size
 
 # Standard Xiangqi piece positions
-red_positions = [(0, 0), (8, 0),    # Chariots
-                   (4, 0),          # General
-                   (3, 0), (5, 0),  # Advisors
-                   (2, 0), (6, 0),  # Elephants
-                   (1, 0), (7, 0),  # Horses
-                   (1, 2), (7, 2),  # Canons
-                   (0, 3), (2, 3), (4, 3), (6, 3), (8, 3)   # Soldiers
-                   ] 
+red_positions =     [(0, 0), (8, 0),    # Chariots
+                    (4, 0),          # General
+                    (3, 0), (5, 0),  # Advisors
+                    (2, 0), (6, 0),  # Elephants
+                    (1, 0), (7, 0),  # Horses
+                    (1, 2), (7, 2),  # Canons
+                    (0, 3), (2, 3), (4, 3), (6, 3), (8, 3)   # Soldiers
+                    ] 
 
-black_positions = [(0, 9), (8, 9),  # Chariots
-                   (4, 9),          # General
-                   (3, 9), (5, 9),  # Advisors
-                   (2, 9), (6, 9),  # Elephants
-                   (1, 9), (7, 9),  # Horses
-                   (1, 7), (7, 7),  # Canons
-                   (0, 6), (2, 6), (4, 6), (6, 6), (8, 6)   # Soldiers
-                   ] 
+black_positions =   [(0, 9), (8, 9),  # Chariots
+                    (4, 9),          # General
+                    (3, 9), (5, 9),  # Advisors
+                    (2, 9), (6, 9),  # Elephants
+                    (1, 9), (7, 9),  # Horses
+                    (1, 7), (7, 7),  # Canons
+                    (0, 6), (2, 6), (4, 6), (6, 6), (8, 6)   # Soldiers
+                    ] 
 
-
+def player_turn(surface):
+    font = pyg.font.Font(None, 55)
+    player_now = "Black's Turn"
+    player_now_text =  font.render(player_now, True, (0, 0, 0))
+    surface.blit(player_now_text, (535, 55))
 
 def draw_pieces(surface):
     """Draws only the piece positions."""
     for col, row in black_positions:
         px = col * CELL_SIZE + CELL_SIZE // 2
         py = row * CELL_SIZE + CELL_SIZE // 2 + PADDING_TOP
-        pyg.draw.circle(surface, (255, 0, 0), (px, py), PIECE_RADIUS)  # Black pieces
+        pyg.draw.circle(surface, (0, 0, 0), (px, py), PIECE_RADIUS)  # Black pieces
     
     for col, row in red_positions:
         px = col * CELL_SIZE + CELL_SIZE // 2
         py = row * CELL_SIZE + CELL_SIZE // 2 + PADDING_TOP
-        pyg.draw.circle(surface, (0, 0, 0), (px, py), PIECE_RADIUS)  # Red pieces
+        pyg.draw.circle(surface, (255, 0, 0), (px, py), PIECE_RADIUS)  # Red pieces
 
 class Game:
     """Handles the game state."""
@@ -89,6 +93,7 @@ class Game:
         
         # Draw only chess piece positions
         draw_pieces(surface)
+        player_turn(surface)
 
 # Main game loop
 game = Game()
